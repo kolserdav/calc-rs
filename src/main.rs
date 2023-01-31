@@ -7,27 +7,34 @@ struct Latins<'a> {
 fn main() {
     let latins = create_latins();
     loop {
-        let stdin = std::io::stdin().lines();
-        let mut line: Option<String> = None;
-        for l in stdin {
-            line = Some(l.unwrap());
-            break;
-        }
-        if let Some(v) = line {
-            let line_i = v.split(" ");
-            let vec: Vec<&str> = line_i.collect();
-            for i in &vec {
-                println!("{:?}", i);
-            }
-        } else {
-            println!("Line not set");
-        }
+        parse_args();
     }
     /*
     for l in &latins {
         println!("{:?}", l.name);
     }
     */
+}
+
+fn split_line(line: &str) {
+    print_type_of(&line.split(" "));
+}
+
+fn parse_args<'a>() -> Vec<&'a str> {
+    let line = parse_line();
+    let line = line.split(" ");
+    let vec = line.collect();
+    return vec;
+}
+
+fn parse_line() -> String {
+    let stdin = std::io::stdin().lines();
+    let mut line: String = String::from("");
+    for l in stdin {
+        line = l.unwrap();
+        break;
+    }
+    return line;
 }
 
 fn print_type_of<T>(_: &T) {
