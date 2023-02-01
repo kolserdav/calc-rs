@@ -1,3 +1,6 @@
+#[allow(unused_variables)]
+use std::io::Write;
+
 #[derive(Debug)]
 struct Latins<'a> {
     name: &'a str,
@@ -5,9 +8,16 @@ struct Latins<'a> {
 }
 
 fn main() {
-    let latins = create_latins();
+    // let latins = create_latins();
     loop {
-        parse_args();
+        let vec = parse_args();
+        for i in &vec {
+            let first = i.parse::<u8>();
+            if let Err(err) = first {
+                println!("Error parse first number {:?}", err);
+            }
+            
+        }
     }
     /*
     for l in &latins {
@@ -16,15 +26,18 @@ fn main() {
     */
 }
 
-fn split_line(line: &str) {
-    print_type_of(&line.split(" "));
+fn split_line<'a>(line: &str) -> core::str::Split<&'a str> {
+    line.split(" ")
 }
 
-fn parse_args<'a>() -> Vec<&'a str> {
-    let line = parse_line();
-    let line = line.split(" ");
-    let vec = line.collect();
-    return vec;
+fn parse_args<'a>() -> Vec<String> {
+    let line_p = parse_line();
+    let line = line_p.split(" ");
+    let mut vec = Vec::new();
+    for l in line {
+        vec.push(l.to_string());
+    }
+    vec
 }
 
 fn parse_line() -> String {
