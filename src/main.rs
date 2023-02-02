@@ -3,7 +3,7 @@
 use std::io::{Error, ErrorKind, Write};
 
 #[derive(Debug)]
-struct Latins<'a> {
+struct Latin<'a> {
     name: &'a str,
     value: u8,
 }
@@ -71,45 +71,45 @@ fn print_type_of<T>(_: &T) {
     println!("{}", std::any::type_name::<T>())
 }
 
-fn create_latins<'b>() -> Vec<Latins<'b>> {
+fn create_latins<'b>() -> Vec<Latin<'b>> {
     let mut latins = Vec::new();
-    latins.push(Latins {
+    latins.push(Latin {
         name: "I",
         value: 1,
     });
-    latins.push(Latins {
+    latins.push(Latin {
         name: "II",
         value: 2,
     });
-    latins.push(Latins {
+    latins.push(Latin {
         name: "III",
         value: 3,
     });
-    latins.push(Latins {
+    latins.push(Latin {
         name: "IV",
         value: 4,
     });
-    latins.push(Latins {
+    latins.push(Latin {
         name: "V",
         value: 5,
     });
-    latins.push(Latins {
+    latins.push(Latin {
         name: "VI",
         value: 6,
     });
-    latins.push(Latins {
+    latins.push(Latin {
         name: "VII",
         value: 7,
     });
-    latins.push(Latins {
+    latins.push(Latin {
         name: "VIII",
         value: 8,
     });
-    latins.push(Latins {
+    latins.push(Latin {
         name: "IX",
         value: 9,
     });
-    latins.push(Latins {
+    latins.push(Latin {
         name: "X",
         value: 10,
     });
