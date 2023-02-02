@@ -1,5 +1,6 @@
 #[allow(unused_variables)]
-use std::io::Write;
+#[allow(unused_imports)]
+use std::io::{Error, ErrorKind, Write};
 
 #[derive(Debug)]
 struct Latins<'a> {
@@ -11,12 +12,19 @@ fn main() {
     // let latins = create_latins();
     loop {
         let vec = parse_args();
-        for i in &vec {
-            let first = i.parse::<u8>();
-            if let Err(err) = first {
-                println!("Error parse first number {:?}", err);
+        if vec.len() != 3 {
+            println!("Expected 3 argumets received {}", vec.len());
+            continue;
+        }
+        let mut errors = Vec::<Error>::new();
+        parse_number(&vec[0], "first", &mut errors);
+        parse_number(&vec[2], "second", &mut errors);
+        if errors.len() != 0 {
+            println!("Some values wrong:");
+            for e in errors {
+                println!("{}", e);
             }
-            
+            continue;
         }
     }
     /*
@@ -24,10 +32,6 @@ fn main() {
         println!("{:?}", l.name);
     }
     */
-}
-
-fn split_line<'a>(line: &str) -> core::str::Split<&'a str> {
-    line.split(" ")
 }
 
 fn parse_args<'a>() -> Vec<String> {
@@ -40,6 +44,14 @@ fn parse_args<'a>() -> Vec<String> {
     vec
 }
 
+fn parse_number(val: &String, name: &str, errors: &mut Vec<Error>) {
+    let first = val.parse::<u8>();
+    if let Err(err) = first {
+        let err_mess = format!("Failed parse {} number: '{}', {:?}", name, val, err);
+        errors.push(Error::new(ErrorKind::InvalidInput, err_mess));
+    }
+}
+
 fn parse_line() -> String {
     let stdin = std::io::stdin().lines();
     let mut line: String = String::from("");
@@ -48,6 +60,11 @@ fn parse_line() -> String {
         break;
     }
     return line;
+}
+
+#[allow(dead_code)]
+fn split_line<'a>(line: &str) -> core::str::Split<&'a str> {
+    line.split(" ")
 }
 
 fn print_type_of<T>(_: &T) {
